@@ -1,8 +1,8 @@
 {
   "expo": {
-    "name": "msds_0",
+    "name": "garb",
     "description": "This project is really great.",
-    "slug": "msds_0",
+    "slug": "garb",
     "privacy": "public",
     "sdkVersion": "30.0.0",
     "platforms": ["ios", "android"],
