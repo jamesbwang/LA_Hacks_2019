@@ -4,10 +4,6 @@ import { Ionicons } from '@expo/vector-icons';
 import { createStackNavigator, createBottomTabNavigator } from 'react-navigation';
 import { Camera, Permissions } from 'expo';
 
-
-
-
-
 class HomeScreen extends React.Component {
   state = {
     hasCameraPermission: null,
