@@ -25,8 +25,9 @@ class HomeScreen extends React.Component {
         this.setState({
             takeImageText: "PICTURE TAKEN",
             photo: data.base64
-        }, console.log(data.base64))
-    })
+        }, console.log(data.base64), this.props.navigation.navigate('Settings')
+        )
+    });
   }
 
   async getCameraPermissions() {
@@ -95,15 +96,7 @@ class SettingsScreen extends React.Component {
   render() {
     return (
       <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-        <Text>Settings!</Text>
-        <Button
-          title="Go to Home"
-          onPress={() => this.props.navigation.navigate('Home')}
-        />
-        <Button
-          title="Go to Details"
-          onPress={() => this.props.navigation.navigate('Details')}
-        />
+        <Text>Display information from db</Text>
       </View>
     );
   }
