@@ -1,44 +1,47 @@
-import React, { Component } from 'react';
-import { Ionicons } from '@expo/vector-icons';
-import { createStackNavigator, createBottomTabNavigator } from 'react-navigation';
+import React from 'react';
+import { createStackNavigator} from 'react-navigation';
+import {
+  Button,
+  StyleSheet,
+  Text,
+  TextInput,
+  View
+} from 'react-native';
 import LoadingScreen from './includes/loading.js';
 import HomeScreen from './includes/home.js';
 import SettingsScreen from './includes/settings.js';
+import ReaderScreen from './includes/reader.js';
 
 
 
 
 
-
-const HomeStack = createStackNavigator({
-  Home: { screen: HomeScreen },
-});
-
-const SettingsStack = createStackNavigator({
-  Settings: { screen: SettingsScreen },
-});
-
-export default createBottomTabNavigator(
+const RootStack = createStackNavigator(
   {
-    Home: { screen: HomeStack },
-    Settings: { screen: SettingsStack },
+    Loading: LoadingScreen,
+    Home: HomeScreen,
+    Display: SettingsScreen,
+    Reader: ReaderScreen,
   },
   {
-    navigationOptions: ({ navigation }) => ({
-      tabBarIcon: ({ focused, tintColor }) => {
-        const { routeName } = navigation.state;
-        let iconName;
-        if (routeName === 'Home') {
-          iconName = `ios-information-circle${focused ? '' : '-outline'}`;
-        } else if (routeName === 'Settings') {
-          iconName = `ios-options${focused ? '' : '-outline'}`;
-        }
-        return <Ionicons name={iconName} size={25} color={tintColor} />;
+    initialRouteName: 'Loading',
+    navigationOptions: {
+      headerStyle: {
+        backgroundColor: '#fff',
+        elevation: 0,
+        height: 20,
+        borderBottomWidth: 0,
       },
-    }),
-    tabBarOptions: {
-      activeTintColor: 'steelblue',
-      inactiveTintColor: 'gray',
+      headerTintColor: '#fff',
+      headerTitleStyle: {
+        fontWeight: 'bold',
+      },
     },
   }
 );
+
+export default class App extends React.Component {
+  render() {
+    return <RootStack />;
+  }
+}
