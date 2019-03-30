@@ -25,7 +25,7 @@ export default class HomeScreen extends React.Component {
               takeImageText: "PICTURE TAKEN",
               photo: data.base64,
               photoURI: data.uri,
-          }, console.log(data.base64), this.props.navigation.navigate('Settings', this.state)
+          }, console.log(data.base64), this.props.navigation.navigate('Reader', this.state)
           )
       });
     }

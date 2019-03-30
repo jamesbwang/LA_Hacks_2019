@@ -62,7 +62,7 @@ export default class ReaderScreen extends React.Component {
     
     render() {
         return (
-            <View style={ styles.container }>
+            <View>
                 <FlatList
                     data = { this.state.texts }
                     renderItem = {({ item }) => <Text>{ item.key }</Text>}
