@@ -8,7 +8,9 @@
 
 import React from 'react';
 import {
-    Text
+    FlatList,
+    Text,
+    View
 } from 'react-native';
 
 export default class ReaderScreen extends React.Component {
@@ -23,8 +25,6 @@ export default class ReaderScreen extends React.Component {
     }
 
     findText() {
-        var content = "samp";
-
         api_uri = "https://vision.googleapis.com/v1/images:annotate"
             + "?key=" + this.state.api_key;
         
@@ -50,7 +50,10 @@ export default class ReaderScreen extends React.Component {
             .then((response) => response.json())
             .then((responseJson) => {
                 console.log(responseJson)
-                return responseJson.responses.textAnnotations
+                for(var key in responseJson.responses[0].textAnnotations) {
+                    this.state.texts[key] = responseJson.responses[0].textAnnotations[key].description;
+                }
+                return responseJson.responses[0].textAnnotations
             })
             .catch((error) => {
                 console.error(error);
@@ -58,6 +61,13 @@ export default class ReaderScreen extends React.Component {
     }
     
     render() {
-        // Do something.
+        return (
+            <View style={ styles.container }>
+                <FlatList
+                    data = { this.state.texts }
+                    renderItem = {({ item }) => <Text>{ item.key }</Text>}
+                />
+            </View> 
+        );
     }
 }
