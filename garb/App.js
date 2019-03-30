@@ -25,11 +25,11 @@ class HomeScreen extends React.Component {
     this.setState({
         takeImageText: "... PROCESSING PICTURE ..."
     });
-    this.camera.takePictureAsync({ skipProcessing: true }).then((data) => {
+    this.camera.takePictureAsync({ skipProcessing: true, base64: true }).then((data) => {
         this.setState({
             takeImageText: "PICTURE TAKEN",
-            photo: data.uri
-        }, console.log(data.uri))
+            photo: data.base64
+        }, console.log(data.base64))
     })
   }
 
