@@ -16,9 +16,9 @@ export default class ReaderScreen extends React.Component {
         super(props);
         const { navigation } = this.props;
         this.state = {
-            api_key = "",
-            b64str = navigation.photo,
-            photo_uri = navigation.photoURI
+            api_key: "",
+            b64str: navigation.photo,
+            photo_uri: navigation.photoURI
         };
     }
 
