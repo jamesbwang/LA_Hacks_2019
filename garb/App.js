@@ -5,20 +5,15 @@ import { createStackNavigator, createBottomTabNavigator } from 'react-navigation
 import { Camera, Permissions } from 'expo';
 
 
-async function getCameraPermissions() {
-  const { Permissions } = Expo;
-  const { status } = await Permissions.askAsync(Permissions.CAMERA);
-  if (status === 'granted') {
-  } else {
-    throw new Error('Camera permission not granted');
-  }
-}
+
 
 
 class HomeScreen extends React.Component {
   state = {
     hasCameraPermission: null,
     type: Camera.Constants.Type.back,
+    takeImageText: null,
+    photo: null,
   };
 
   async componentDidMount() {
@@ -26,16 +21,39 @@ class HomeScreen extends React.Component {
     this.setState({ hasCameraPermission: status === 'granted' });
   }
 
+  takePicture() {
+    this.setState({
+        takeImageText: "... PROCESSING PICTURE ..."
+    });
+    this.camera.takePictureAsync({ skipProcessing: true }).then((data) => {
+        this.setState({
+            takeImageText: "PICTURE TAKEN",
+            photo: data.uri
+        }, console.log(data.uri))
+    })
+  }
+
+  async getCameraPermissions() {
+    const { Permissions } = Expo;
+    const { status } = await Permissions.askAsync(Permissions.CAMERA);
+    if (status === 'granted') {
+    } else {
+      throw new Error('Camera permission not granted');
+    }
+  }
+
   render() {
     const { hasCameraPermission } = this.state;
     if (hasCameraPermission === null) {
-      return <View />;
+      return <View/>;
     } else if (hasCameraPermission === false) {
       return <Text>No access to camera</Text>;
     } else {
       return (
         <View style={{ flex: 1 }}>
-          <Camera style={{ flex: 1 }} type={this.state.type}>
+          <Camera style={{ flex: 1 }} 
+          type={this.state.type}
+          ref={ref => { this.camera = ref; }}>
             <View
               style={{
                 flex: 1,
@@ -59,6 +77,15 @@ class HomeScreen extends React.Component {
                   style={{ fontSize: 18, marginBottom: 10, color: 'white' }}>
                   {' '}Flip{' '}
                 </Text>
+              </TouchableOpacity>
+            </View>
+            <View>
+              <TouchableOpacity
+              onPress={this.takePicture.bind(this)} >
+                    <Text
+                  style={{ fontSize: 18, marginBottom: 10, color: 'white' }}>
+                  Take photo
+                  </Text>
               </TouchableOpacity>
             </View>
           </Camera>
@@ -121,9 +148,6 @@ export default createBottomTabNavigator(
         } else if (routeName === 'Settings') {
           iconName = `ios-options${focused ? '' : '-outline'}`;
         }
-
-        // You can return any component that you like here! We usually use an
-        // icon component from react-native-vector-icons
         return <Ionicons name={iconName} size={25} color={tintColor} />;
       },
     }),
