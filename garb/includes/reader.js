@@ -24,6 +24,10 @@ export default class ReaderScreen extends React.Component {
         };
     }
 
+    componentDidMount() {
+        this.findText();
+    }
+
     findText() {
         api_uri = "https://vision.googleapis.com/v1/images:annotate"
             + "?key=" + this.state.api_key;
