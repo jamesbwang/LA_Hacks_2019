@@ -2,34 +2,15 @@
 
 Garb is a waste management tool for groceries. By scanning their receipts each week, Garb users can cut down on their food waste and contribute to a sustainable, socially accountable future.
 
-### Markdown
+### Features
 
-Markdown is a lightweight and easy-to-use syntax for styling your writing. It includes conventions for
+Garb was built with React Native for both iOS and Android devices. It uses Optical Character Recognition (OCR) APIs to read text from images. To annotate food items, basic Natural Language Processing (NLP) tools were conceived and built into an API. Garb uses React Native's Async Storage systems to store data in between uses. Finally, Garb takes advantage of both user input and expiration date datasets to record waste usage, and display food waste amounts to the user.
 
-```markdown
-Syntax highlighted code block
 
-# Header 1
-## Header 2
-### Header 3
+### Further Improvements
 
-- Bulleted
-- List
+Garb represents images using a base-64 encoded string, and as such, the API takes a long time to process this data. Compression of this base-64 data into a more condensed format would speed up runtime considerably. Also, integration of the Natural Language Processing API into the system itself would speed up software further.
 
-1. Numbered
-2. List
+### Credits
 
-**Bold** and _Italic_ and `Code` text
-
-[Link](url) and ![Image](src)
-```
-
-For more details see [GitHub Flavored Markdown](https://guides.github.com/features/mastering-markdown/).
-
-### Jekyll Themes
-
-Your Pages site will use the layout and styles from the Jekyll theme you have selected in your [repository settings](https://github.com/jamesbwang/LA_Hacks_2019/settings). The name of this theme is saved in the Jekyll `_config.yml` configuration file.
-
-### Support or Contact
-
-Having trouble with Pages? Check out our [documentation](https://help.github.com/categories/github-pages-basics/) or [contact support](https://github.com/contact) and we’ll help you sort it out.
+Garb was developed by [Gideon Tong](https://github.com/gideontong), [Daisy Chen](https://github.com/Justawayx), [Nora Zhou](https://github.com/Nonus99), and [James Wang](https://github.com/jamesbwang) for LA Hacks 2019. Garb was submitted for the best sustainability hack, and the best use of the Google Cloud API.
