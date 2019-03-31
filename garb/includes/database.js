@@ -9,7 +9,6 @@ import {
   AsyncStorage
 } from "react-native";
 import { CheckBox } from "react-native-elements";
-import { Font } from "expo";
 
 Date.prototype.addDays = function(days) {
   var date = new Date(this.valueOf());
@@ -32,7 +31,7 @@ export default class DatabaseScreen extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      textstring: this.props.navigation.state.params.text // Desantizied output from Google Vision API via reader.js
+      //textstring: this.props.navigation.state.params.text // Desantizied output from Google Vision API via reader.js
     };
   }
 
@@ -59,9 +58,6 @@ export default class DatabaseScreen extends React.Component {
   }
 
   componentDidMount = async () => {
-    await Font.loadAsync({
-      "Merriweather-Bold": require("./assets/fonts/Merriweather-Bold.ttf")
-    });
     this.setState({ fontLoaded: true });
     /* Add/remove foods here */
     this.addNewFood("Banana");
