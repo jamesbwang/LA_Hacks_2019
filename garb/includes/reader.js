@@ -93,6 +93,7 @@ export default class ReaderScreen extends React.Component {
                 <Text>{ this.state.array }</Text>
                 <View style={styles.circles}>
                     <Progress.CircleSnail
+                        size= {200}
                         style={styles.progress}
                         progress={this.state.progress}
                         indeterminate={this.state.indeterminate}
