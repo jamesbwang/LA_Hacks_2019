@@ -59,6 +59,43 @@ export default class DatabaseScreen extends React.Component {
 		  var i = 1;
 	  for (i = 1; i < ocrStrings.length; i++)
 		  this.addNewFood(ocrStrings[i]);
+    console.log("[LOG] Database screen has loaded.");
+    //console.log(this.props.navigation.state);
+    api_url = "http://35.243.135.194";
+    input = this.props.navigation.state.toString();
+    const formData = new FormData();
+    formData.append('ocrtext', input);
+  
+    params = {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/x-www-form-urlencoded"
+      },
+      body: formData
+    };
+  
+    fetch(api_uri, params)
+      .then(response => {
+        this.state.array = {};
+        console.log("[LOG] Response generated from Python server.");
+        console.log(response);
+        this.santizedInput= response;
+        //return response;
+      })
+      .catch(error => {
+        console.error(error);
+      });
+
+    console.log(this.santizedInput);
+    /* Add/remove foods here */
+    console.log("dirty string: " + this.state.rawstr);
+    //this.state.sanstr = sanitize(this.state.rawstr);
+    console.log("clean string: " + this.state.sanstr);
+    for(var i in this.state.sanstr.split()){
+      addNewFood(i);
+    }
+    
+>>>>>>> 66101e0a3a9c400c151f0cf6a559a4c7b8f2735c
   };
 
   loadingFoods = async () => {
@@ -177,6 +214,7 @@ export default class DatabaseScreen extends React.Component {
     );
   };
 
+<<<<<<< HEAD
   sanitize(input) {
     api_url = "http://35.243.135.194";
 
@@ -203,6 +241,8 @@ export default class DatabaseScreen extends React.Component {
       });
   }
 
+=======
+>>>>>>> 66101e0a3a9c400c151f0cf6a559a4c7b8f2735c
   render() {
 		return (
 			this.state.isLoading ? ( <Text>Loading...</Text>
