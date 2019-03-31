@@ -8,7 +8,7 @@ import {
   FlatList,
   AsyncStorage
 } from "react-native";
-import { CheckBox } from "react-native-elements";
+import { Font, CheckBox } from "react-native-elements";
 
 Date.prototype.addDays = function(days) {
   var date = new Date(this.valueOf());
@@ -28,17 +28,18 @@ function oneElemArrToElem(arr) {
 var tempCheckValues = [];
 
 export default class DatabaseScreen extends React.Component {
+	/*
   constructor(props) {
     super(props);
     this.state = {
       //textstring: this.props.navigation.state.params.text // Desantizied output from Google Vision API via reader.js
     };
   }
+  */
 
   state = {
     isLoading: false,
     foodList: [],
-    fontLoaded: false,
     checkBoxChecked: []
   };
 
@@ -58,7 +59,6 @@ export default class DatabaseScreen extends React.Component {
   }
 
   componentDidMount = async () => {
-    this.setState({ fontLoaded: true });
     /* Add/remove foods here */
     this.addNewFood("Banana");
     this.addNewFood("Pineapple");
@@ -140,16 +140,13 @@ export default class DatabaseScreen extends React.Component {
 
   recordFoodList = async newFoodList => {
     try {
-      const saveResult = await AsyncStorage.setItem(
-        "foodList",
-        JSON.stringify(newFoodList)
-      );
-      if (saveResult !== null) {
-        this.setState({
-          isLoading: true,
-          foodList: JSON.parse(allFoods)
-        });
-      }
+		const saveResult = await AsyncStorage.setItem('foodList', JSON.stringify(newFoodList))			
+		if (saveResult !== null) {
+			this.setState({
+				isLoading: true,
+				foodList: JSON.parse(allFoods)
+			});
+		}
       this.realCount += 1;
       if (this.realCount == this.expectedCount) {
         this.setState({
@@ -215,41 +212,38 @@ export default class DatabaseScreen extends React.Component {
   }
 
   render() {
-    return this.state.isLoading ? (
-      <Text>Loading...</Text>
-    ) : (
-      <View style={styles.container}>
-        <View style={styles.foodListTitle}>
-          {this.state.fontLoaded ? (
-            <Text style={styles.titleText}>Recent food</Text>
-          ) : null}
-        </View>
-        <FlatList
-          data={oneElemArrToElem(this.state.foodList.map(Object.values))}
-          renderItem={
-            ({ item }) => (
-              <View style={styles.listItems}>
-                <Text style={styles.foodText}>{item.name}</Text>
-                <CheckBox
-                  title="Finished?"
-                  iconRight
-                  iconType="material"
-                  checkedIcon="check-box"
-                  uncheckedIcon="check-box-outline-blank"
-                  onPress={() => this.handleCheck(item)}
-                />
-              </View>
-            )
-            /*<Button style={styles.finButton}
+		return (
+			this.state.isLoading ? ( <Text>Loading...</Text>
+			) : (
+				<View style={styles.container}>
+				<View style={styles.foodListTitle}>
+					<Text style={styles.titleText}>Recent food</Text>
+				</View>
+				<FlatList
+					data={oneElemArrToElem(this.state.foodList.map(Object.values))}
+					renderItem={
+						({item}) => <View style={styles.listItems}>
+						<Text style={styles.foodText}>{item.name}</Text>
+						<CheckBox
+							title='Finished?'
+							iconRight
+							iconType='material'
+							checkedIcon='check-box'
+							uncheckedIcon='check-box-outline-blank'
+							onPress={() => this.handleCheck(item)}
+						/>
+						</View>
+						/*<Button style={styles.finButton}
 							title='Finished?'
 							onPress={() => this.handleCheck(item)}
 						/>*/
-          }
-          keyExtractor={(item, index) => index.toString()}
-        />
-      </View>
-    );
-  }
+					}
+					keyExtractor={(item, index) => index.toString()}
+				/>
+				</View>
+			)
+		);
+	}
 }
 
 const styles = StyleSheet.create({
