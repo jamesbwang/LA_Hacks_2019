@@ -25,6 +25,7 @@ export default class ReaderScreen extends React.Component {
     }
 
     componentDidMount() {
+        console.log(this.state.photo_uri);
         this.findText();
     }
 
@@ -41,7 +42,7 @@ export default class ReaderScreen extends React.Component {
             body: JSON.stringify({
                 'requests': [{
                     'image': {
-                        "content": b64str
+                        "content": this.state.b64str
                     },
                     'features': [{
                         "type": "TEXT_DETECTION"

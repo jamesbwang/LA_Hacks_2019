@@ -1,4 +1,4 @@
-import { Camera, Permissions } from 'expo';
+import { Camera, Permissions, FileSystem } from 'expo';
 import {Text, View, TouchableOpacity, Image} from 'react-native';
 import React, { Component } from 'react';
 
@@ -20,14 +20,17 @@ export default class HomeScreen extends React.Component {
       this.setState({
           takeImageText: "... PROCESSING PICTURE ..."
       });
-      this.camera.takePictureAsync({ skipProcessing: true, base64: true, onPictureSaved: this.props.navigation.navigate('Reader', this.state) }).then((data) => {
+      this.camera.takePictureAsync({ skipProcessing: true, base64: true, onPictureSaved: this.onPictureSaved }).then((data) => {
           this.setState({
-              takeImageText: "PICTURE TAKEN",
               photo: data.base64,
               photoURI: data.uri,
-          }, console.log(data.base64)
-          )
+              takeImageText: "PICTURE TAKEN"
+          })
       });
+    }
+
+    onPictureSaved = () => {
+      this.props.navigation.navigate('Reader', this.state)
     }
   
     async getCameraPermissions() {
