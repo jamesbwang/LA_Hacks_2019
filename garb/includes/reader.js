@@ -90,7 +90,7 @@ export default class ReaderScreen extends React.Component {
     render() {
         return (
             <View style = {styles.container}>
-                <Text>{ this.state.array }</Text>
+                
                 <View style={styles.circles}>
                     <Progress.CircleSnail
                         size= {200}

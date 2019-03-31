@@ -79,10 +79,24 @@ export default class HomeScreen extends React.Component {
                   alignItems: 'center',
                 }}
                 onPress={this.takePicture.bind(this)} >
+                 <View style={{
+                  borderWidth: 1, 
+                  borderRadius: 10,
+                  borderColor: 'white',
+                  width: '50%',
+                  padding: 5,
+                  }}>
                       <Text
-                    style={{ fontSize: 24, marginBottom: 10, color: 'white' }}>
+                    style={{ 
+                      fontSize: 24,
+                      marginBottom: 10,
+                      color: 'white',
+                      padding:10,
+                      textAlign: 'center'
+                       }}>
                     {' '}Take photo{' '}
                     </Text>
+                  </View>
                 </TouchableOpacity>
               </View>
             </Camera>
