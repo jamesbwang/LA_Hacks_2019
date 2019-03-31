@@ -9,7 +9,6 @@
 import { Camera, Permissions } from "expo";
 import { Text, View, TouchableOpacity } from "react-native";
 import React from "react";
-import { Constants, Svg } from "react-native-svg";
 
 export default class HomeScreen extends React.Component {
   state = {
@@ -111,16 +110,6 @@ export default class HomeScreen extends React.Component {
                   Take photo
                 </Text>
               </TouchableOpacity>
-              <Svg height={100} width={100}>
-                <Svg.Circle
-                  cx={50}
-                  cy={50}
-                  r={45}
-                  strokeWidth={2.5}
-                  stroke="#000000"
-                  fill="#ffffff"
-                />
-              </Svg>
             </View>
           </Camera>
         </View>
