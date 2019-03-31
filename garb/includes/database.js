@@ -37,14 +37,14 @@ export default class App extends React.Component {
 
   componentDidMount = () => {
     /* Add/remove foods here */
-    this.addNewFood("Banana");
-    this.addNewFood("Pineapple");
-    this.addNewFood("Rotisserie Chicken");
+    // this.addNewFood("Banana");
+    // this.addNewFood("Pineapple");
+    // this.addNewFood("Rotisserie Chicken");
     //this.addNewFood("Cucumber");
     //this.addNewFood("Cup Noodle");
-    var appleObject = this.addNewFood("Apple");
-    this.addNewFood("Chick-fil-A sandwich");
-    this.removeFood(appleObject);
+    // var appleObject = this.addNewFood("Apple");
+    // this.addNewFood("Chick-fil-A sandwich");
+    // this.removeFood(appleObject);
     /*this.addNewFood("Bibimbap");
 		this.addNewFood("Peking duck");
 		this.addNewFood("Passionfruit");
