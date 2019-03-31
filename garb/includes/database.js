@@ -56,7 +56,8 @@ export default class DatabaseScreen extends React.Component {
 		  if (ocrStrings !== null)
 			  ocrStrings = JSON.parse(ocrStrings);
 		  } catch (error) { console.log(error.message); }
-	  for (var i = 1; i < ocrStrings.length; i++)
+		  var i = 1;
+	  for (i = 1; i < ocrStrings.length; i++)
 		  this.addNewFood(ocrStrings[i]);
   };
 
