@@ -52,8 +52,8 @@ export default class DatabaseScreen extends React.Component {
   componentDidMount = async () => {
     console.log("[LOG] Database screen has loaded.");
     //console.log(this.props.navigation.state);
-    santizedInput = sanitize(str(this.props.navigation.state));
-    console.log(santizedInput);
+    this.sanitize(this.props.navigation.state.toString());
+    console.log(this.santizedInput);
     /* Add/remove foods here */
     this.addNewFood("Banana");
     this.addNewFood("Pineapple");
@@ -135,13 +135,16 @@ export default class DatabaseScreen extends React.Component {
 
   recordFoodList = async newFoodList => {
     try {
-		const saveResult = await AsyncStorage.setItem('foodList', JSON.stringify(newFoodList))			
-		if (saveResult !== null) {
-			this.setState({
-				isLoading: true,
-				foodList: JSON.parse(allFoods)
-			});
-		}
+      const saveResult = await AsyncStorage.setItem(
+        "foodList",
+        JSON.stringify(newFoodList)
+      );
+      if (saveResult !== null) {
+        this.setState({
+          isLoading: true,
+          foodList: JSON.parse(allFoods)
+        });
+      }
       this.realCount += 1;
       if (this.realCount == this.expectedCount) {
         this.setState({
@@ -180,65 +183,66 @@ export default class DatabaseScreen extends React.Component {
     this.removeFood(foodObject);
   };
 
-  sanitize(input) {
+  sanitize = input => {
     api_url = "http://35.243.135.194";
-
+  
     params = {
       method: "POST",
       headers: {
         "Content-Type": "multipart/form-data"
       },
       body: FormData({
-        ocrtext: this.state.textstring
+        ocrtext: input
       })
     };
-
-    return fetch(api_uri, params)
+  
+    fetch(api_uri, params)
       .then(response => {
         this.state.array = {};
         console.log("[LOG] Response generated from Python server.");
         console.log(response);
-        this.state.sanitized = response;
-        return response;
+        this.santizedInput= response;
+        //return response;
       })
       .catch(error => {
         console.error(error);
       });
-  }
+  };
 
   render() {
-		return (
-			this.state.isLoading ? ( <Text>Loading...</Text>
-			) : (
-				<View style={styles.container}>
-				<View style={styles.foodListTitle}>
-					<Text style={styles.titleText}>Recent food</Text>
-				</View>
-				<FlatList
-					data={oneElemArrToElem(this.state.foodList.map(Object.values))}
-					renderItem={
-						({item}) => <View style={styles.listItems}>
-						<Text style={styles.foodText}>{item.name}</Text>
-						<CheckBox
-							title='Finished?'
-							iconRight
-							iconType='material'
-							checkedIcon='check-box'
-							uncheckedIcon='check-box-outline-blank'
-							onPress={() => this.handleCheck(item)}
-						/>
-						</View>
-						/*<Button style={styles.finButton}
+    return this.state.isLoading ? (
+      <Text>Loading...</Text>
+    ) : (
+      <View style={styles.container}>
+        <View style={styles.foodListTitle}>
+          <Text style={styles.titleText}>Recent food</Text>
+        </View>
+        <FlatList
+          data={oneElemArrToElem(this.state.foodList.map(Object.values))}
+          renderItem={
+            ({ item }) => (
+              <View style={styles.listItems}>
+                <Text style={styles.foodText}>{item.name}</Text>
+                <CheckBox
+                  title="Finished?"
+                  iconRight
+                  iconType="material"
+                  checkedIcon="check-box"
+                  uncheckedIcon="check-box-outline-blank"
+                  onPress={() => this.handleCheck(item)}
+                />
+              </View>
+            )
+            /*<Button style={styles.finButton}
 							title='Finished?'
 							onPress={() => this.handleCheck(item)}
 						/>*/
-					}
-					keyExtractor={(item, index) => index.toString()}
-				/>
-				</View>
-			)
-		);
-	}
+          }
+          keyExtractor={(item, index) => index.toString()}
+        />
+      </View>
+    );
+  }
 }
 
 const styles = StyleSheet.create({
