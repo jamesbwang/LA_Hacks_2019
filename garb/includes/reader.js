@@ -8,7 +8,6 @@
 
 import React from 'react';
 import {
-    Text,
     View,
     StyleSheet
 } from 'react-native';
@@ -77,9 +76,9 @@ export default class ReaderScreen extends React.Component {
                 for(var key in responseJson.responses[0].textAnnotations) {
                     this.state.array[key] = responseJson.responses[0].textAnnotations[key].description;
                 }
-                console.log(this.state.array);  
-                this.props.navigation.navigate('Database');
+                //console.log(this.state.array);  
                 this.state.text = responseJson.responses[0].textAnnotations;
+                this.props.navigation.navigate('Database', this.state.array);
                 return responseJson.responses[0].textAnnotations;
             })
             .catch((error) => {

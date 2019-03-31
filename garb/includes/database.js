@@ -8,7 +8,7 @@ import {
   FlatList,
   AsyncStorage
 } from "react-native";
-import { Font, CheckBox } from "react-native-elements";
+import { CheckBox } from "react-native-elements";
 
 Date.prototype.addDays = function(days) {
   var date = new Date(this.valueOf());
@@ -28,15 +28,6 @@ function oneElemArrToElem(arr) {
 var tempCheckValues = [];
 
 export default class DatabaseScreen extends React.Component {
-	/*
-  constructor(props) {
-    super(props);
-    this.state = {
-      //textstring: this.props.navigation.state.params.text // Desantizied output from Google Vision API via reader.js
-    };
-  }
-  */
-
   state = {
     isLoading: false,
     foodList: [],
@@ -59,6 +50,10 @@ export default class DatabaseScreen extends React.Component {
   }
 
   componentDidMount = async () => {
+    console.log("[LOG] Database screen has loaded.");
+    //console.log(this.props.navigation.state);
+    santizedInput = sanitize(str(this.props.navigation.state));
+    console.log(santizedInput);
     /* Add/remove foods here */
     this.addNewFood("Banana");
     this.addNewFood("Pineapple");
@@ -263,7 +258,6 @@ const styles = StyleSheet.create({
   },
   titleText: {
     color: "black",
-    fontFamily: "serif",
     textAlign: "right",
     alignSelf: "stretch",
     fontWeight: "bold",
@@ -276,7 +270,6 @@ const styles = StyleSheet.create({
   },
   foodText: {
     color: "black",
-    fontFamily: "serif",
     fontSize: 18
   }
 });
