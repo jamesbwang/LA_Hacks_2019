@@ -19,12 +19,13 @@ export default class ReaderScreen extends React.Component {
         const { navigation } = this.props;
         this.state = {
             api_key: "",
-            b64str: navigation.photo,
-            photo_uri: navigation.photoURI
+            b64str: this.props.navigation.state.params.base64,
+            photo_uri: this.props.navigation.state.params.uri
         };
     }
 
     componentDidMount() {
+        console.log("[LOG] Picture processing has begun.");
         this.findText();
     }
 
@@ -41,7 +42,7 @@ export default class ReaderScreen extends React.Component {
             body: JSON.stringify({
                 'requests': [{
                     'image': {
-                        "content": b64str
+                        "content": this.state.b64str
                     },
                     'features': [{
                         "type": "TEXT_DETECTION"
@@ -53,9 +54,10 @@ export default class ReaderScreen extends React.Component {
         return fetch(api_uri, params)
             .then((response) => response.json())
             .then((responseJson) => {
-                console.log(responseJson)
+                this.state.array = {};
+                console.log("[LOG] Response created from Google server.")
                 for(var key in responseJson.responses[0].textAnnotations) {
-                    this.state.texts[key] = responseJson.responses[0].textAnnotations[key].description;
+                    this.state.array[key] = responseJson.responses[0].textAnnotations[key].description;
                 }
                 return responseJson.responses[0].textAnnotations
             })
@@ -68,7 +70,7 @@ export default class ReaderScreen extends React.Component {
         return (
             <View>
                 <FlatList
-                    data = { this.state.texts }
+                    data = { this.state.array }
                     renderItem = {({ item }) => <Text>{ item.key }</Text>}
                 />
             </View> 
