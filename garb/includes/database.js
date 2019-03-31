@@ -8,7 +8,17 @@ Date.prototype.addDays = function(days) {
     return date;
 }
 
-export default class DatabaseScreen extends React.Component {
+function oneElemArrToElem(arr) {
+	var newArr = [];
+	var i;
+	for (i = 0; i < arr.length; i++)
+	{
+		newArr.push(arr[i][0])
+	}
+	return newArr;
+}
+
+export default class App extends React.Component {
 	state = {
 		isLoading: false,
 		foodList: []
@@ -22,8 +32,8 @@ export default class DatabaseScreen extends React.Component {
 		try {
 			const allFoods = await AsyncStorage.getItem('foodList') || 'none';
 			this.setState({
-				isLoading: true,
-				foodList: JSON.parse(allFoods) || {}
+				isLoading: true, //when does this turn false again?
+				foodList: JSON.parse(allFoods) || []
 			});
 		} catch (error) {
 			console.log(error.message);
@@ -45,7 +55,6 @@ export default class DatabaseScreen extends React.Component {
 					}
 				};
 				prevState.foodList.push(newFood);
-				console.log(this.state.foodList);
 				const newFoodList = prevState.foodList;
 				const newState = {
 					...prevState,
@@ -70,22 +79,22 @@ export default class DatabaseScreen extends React.Component {
 		}
 	}	
 	render() {
-		const { isLoading, foodList } = this.state;
-		if (isLoading == false)
+		if (this.state.isLoading == false)
 		{
 			this.addNewFood("Banana");
 			this.addNewFood("Pineapple");
 			this.addNewFood("Rotisserie Chicken");
 			this.addNewFood("Cucumber");
 			this.addNewFood("Cup Noodle");
-			console.log(this.state.foodList.length);
 		}
+		console.log(this.state.isLoading);
+		console.log(this.state.foodList);
 		return (
-			isLoading ? (
+			this.state.isLoading ? (
 				<View style={styles.container}>
 				<Text style={styles.title}>Recent food</Text>
 				<FlatList
-					data={foodList}
+					data={oneElemArrToElem(this.state.foodList.map(Object.values))}
 					renderItem={
 						({item}) => <Text>{item.name}</Text>
 					}
