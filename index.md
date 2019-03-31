@@ -13,4 +13,4 @@ Garb represents images using a base-64 encoded string, and as such, the API take
 
 ### Credits
 
-Garb was developed by [Gideon Tong](https://github.com/gideontong), [Daisy Chen](https://github.com/Justawayx), [Nora Zhou](https://github.com/Nonus99), and [James Wang](https://github.com/jamesbwang) for LA Hacks 2019. Garb was submitted for the best sustainability hack, and the best use of the Google Cloud API.
+Garb was developed by [Gideon Tong](https://github.com/gideontong), [Daisy Chen](https://github.com/Justawayx), [Nora Zhou](https://github.com/Nonus99), and [James Wang](https://github.com/jamesbwang) for [LA Hacks 2019](https://lahacks.com/). Garb was submitted for the best sustainability hack, and the best use of the Google Cloud API.
