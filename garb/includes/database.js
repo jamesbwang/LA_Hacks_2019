@@ -9,6 +9,7 @@ import {
   AsyncStorage
 } from "react-native";
 import { Font, CheckBox } from "react-native-elements";
+import ocrStrings from './reader.js';
 
 Date.prototype.addDays = function(days) {
   var date = new Date(this.valueOf());
@@ -28,16 +29,7 @@ function oneElemArrToElem(arr) {
 var tempCheckValues = [];
 
 export default class DatabaseScreen extends React.Component {
-	/*
-  constructor(props) {
-    super(props);
-    this.state = {
-      //textstring: this.props.navigation.state.params.text // Desantizied output from Google Vision API via reader.js
-    };
-  }
-  */
-
-  state = {
+	state = {
     isLoading: false,
     foodList: [],
     checkBoxChecked: []
@@ -59,22 +51,13 @@ export default class DatabaseScreen extends React.Component {
   }
 
   componentDidMount = async () => {
-    /* Add/remove foods here */
-    this.addNewFood("Banana");
-    this.addNewFood("Pineapple");
-    this.addNewFood("Rotisserie Chicken");
-    this.addNewFood("Cucumber");
-    this.addNewFood("Cup Noodle");
-    var appleObject = this.addNewFood("Apple");
-    this.addNewFood("Chick-fil-A sandwich");
-	console.log(appleObject.id);
-    this.removeFood(appleObject.id);
-    this.addNewFood("Bibimbap");
-    this.addNewFood("Peking duck");
-    this.addNewFood("Passionfruit");
-    this.addNewFood("Bok Choy");
-    this.addNewFood("Fried Tofu");
-    this.addNewFood("Iced Tea");
+	  try {
+		  var ocrStrings = await AsyncStorage.getItem('ocrStrings');
+		  if (ocrStrings !== null)
+			  ocrStrings = JSON.parse(ocrStrings);
+		  } catch (error) { console.log(error.message); }
+	  for (var i = 1; i < ocrStrings.length; i++)
+		  this.addNewFood(ocrStrings[i]);
   };
 
   loadingFoods = async () => {
@@ -95,10 +78,7 @@ export default class DatabaseScreen extends React.Component {
     try {
       this.expectedCount += 1;
       this.setState(prevState => {
-		  console.log(foodId);
-		console.log(prevState.foodList.find(o => o[foodId]));
-        prevState.foodList.splice(prevState.foodList.indexOf(prevState.foodList.find(o => o[foodId])), 1);
-		console.log(prevState.foodList);
+		prevState.foodList.splice(prevState.foodList.indexOf(prevState.foodList.find(o => o[foodId])), 1);
         const newFoodList = prevState.foodList;
         const newState = {
           ...prevState,

@@ -8,9 +8,9 @@
 
 import React from 'react';
 import {
-    Text,
     View,
-    StyleSheet
+    StyleSheet,
+	AsyncStorage
 } from 'react-native';
 import * as Progress from 'react-native-progress';
 
@@ -71,15 +71,24 @@ export default class ReaderScreen extends React.Component {
 
         return fetch(api_uri, params)
             .then((response) => response.json())
-            .then((responseJson) => {
+            .then(async (responseJson) => {
                 this.state.array = {};
                 console.log("[LOG] Response created from Google server.")
+				var ocrStrings = [];
+				var string;
                 for(var key in responseJson.responses[0].textAnnotations) {
-                    this.state.array[key] = responseJson.responses[0].textAnnotations[key].description;
+					string = responseJson.responses[0].textAnnotations[key].description;
+                    this.state.array[key] = string;
+					ocrStrings.push(string);
                 }
-                console.log(this.state.array);  
-                this.props.navigation.navigate('Database');
+				try {
+					await AsyncStorage.setItem('ocrStrings', JSON.stringify(ocrStrings));
+				} catch (error) {
+					console.log(error.message);
+				  }
+				//console.log(this.state.array);  
                 this.state.text = responseJson.responses[0].textAnnotations;
+                this.props.navigation.navigate('Database', this.state.array);
                 return responseJson.responses[0].textAnnotations;
             })
             .catch((error) => {
@@ -90,7 +99,6 @@ export default class ReaderScreen extends React.Component {
     render() {
         return (
             <View style = {styles.container}>
-                
                 <View style={styles.circles}>
                     <Progress.CircleSnail
                         size= {200}
@@ -102,4 +110,4 @@ export default class ReaderScreen extends React.Component {
             </View> 
         );
     }
-}
+};
