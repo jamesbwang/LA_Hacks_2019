@@ -9,7 +9,6 @@ import React from 'react';
 import { createStackNavigator } from 'react-navigation';
 import LoadingScreen from './includes/loading.js';
 import HomeScreen from './includes/home.js';
-import SettingsScreen from './includes/settings.js';
 import ReaderScreen from './includes/reader.js';
 import DatabaseScreen from './includes/database.js';
 
@@ -17,7 +16,6 @@ const RootStack = createStackNavigator(
   {
     Loading: LoadingScreen,
     Home: HomeScreen,
-    Display: SettingsScreen,
     Reader: ReaderScreen,
     Database: DatabaseScreen,
   },
@@ -40,6 +38,6 @@ const RootStack = createStackNavigator(
 
 export default class App extends React.Component {
   render() {
-    return <RootStack />;
+    return <RootStack/>;
   }
 }
