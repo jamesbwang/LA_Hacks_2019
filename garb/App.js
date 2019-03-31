@@ -11,6 +11,7 @@ import LoadingScreen from './includes/loading.js';
 import HomeScreen from './includes/home.js';
 import SettingsScreen from './includes/settings.js';
 import ReaderScreen from './includes/reader.js';
+import DatabaseScreen from './includes/database.js';
 
 const RootStack = createStackNavigator(
   {
@@ -18,6 +19,7 @@ const RootStack = createStackNavigator(
     Home: HomeScreen,
     Display: SettingsScreen,
     Reader: ReaderScreen,
+    Database: DatabaseScreen
   },
   {
     initialRouteName: 'Loading',
