@@ -13,7 +13,7 @@ Garb represents images using a base-64 encoded string, and as such, the API take
 
 ### Development with Garb
 
-Garb requires [Node 10.15.3](https://nodejs.org/en/download/current/). After cloning the repository into the working directly, use the following _npm_ commands:
+Garb requires [Node 10.15.3](https://nodejs.org/en/download/current/), and an API key for [Google Cloud Vision](https://cloud.google.com/vision/). After cloning the repository into the working directly, use the following _npm_ commands:
 
 ```
 >npm install
