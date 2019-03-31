@@ -31,9 +31,8 @@ export default class DatabaseScreen extends React.Component {
   state = {
     isLoading: false,
     foodList: [],
-    checkBoxChecked: [],
-    rawstr: this.props.navigation.state.params.text,
-    sanstr: null
+    fontLoaded: false,
+    checkBoxChecked: []
   };
 
   realCount = 0;
@@ -51,43 +50,23 @@ export default class DatabaseScreen extends React.Component {
     });
   }
 
-  componentDidMount = async () => {
-    console.log("[LOG] Database screen has loaded.");
-    //console.log(this.props.navigation.state);
-    api_url = "http://35.243.135.194";
-    input = this.props.navigation.state.toString();
-    const formData = new FormData();
-    formData.append('ocrtext', input);
-  
-    params = {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/x-www-form-urlencoded"
-      },
-      body: formData
-    };
-  
-    fetch(api_uri, params)
-      .then(response => {
-        this.state.array = {};
-        console.log("[LOG] Response generated from Python server.");
-        console.log(response);
-        this.santizedInput= response;
-        //return response;
-      })
-      .catch(error => {
-        console.error(error);
-      });
-
-    console.log(this.santizedInput);
+  componentWillMount = async () => {
+	this.setState({ fontLoaded: true });
     /* Add/remove foods here */
-    console.log("dirty string: " + this.state.rawstr);
-    //this.state.sanstr = sanitize(this.state.rawstr);
-    console.log("clean string: " + this.state.sanstr);
-    for(var i in this.state.sanstr.split()){
-      addNewFood(i);
-    }
-    
+    this.addNewFood("Banana");
+    this.addNewFood("Pineapple");
+    this.addNewFood("Rotisserie Chicken");
+    this.addNewFood("Cucumber");
+    this.addNewFood("Cup Noodle");
+    var appleObject = this.addNewFood("Apple");
+    this.addNewFood("Chick-fil-A sandwich");
+    this.removeFood(this.appleObject);
+    this.addNewFood("Bibimbap");
+    this.addNewFood("Peking duck");
+    this.addNewFood("Passionfruit");
+    this.addNewFood("Bok Choy");
+    this.addNewFood("Fried Tofu");
+	this.addNewFood("Iced Tea");
   };
 
   loadingFoods = async () => {
@@ -202,16 +181,44 @@ export default class DatabaseScreen extends React.Component {
     this.removeFood(foodObject);
   };
 
+  sanitize(input) {
+    api_url = "http://35.243.135.194";
+
+    params = {
+      method: "POST",
+      headers: {
+        "Content-Type": "multipart/form-data"
+      },
+      body: FormData({
+        ocrtext: this.state.textstring
+      })
+    };
+
+    return fetch(api_uri, params)
+      .then(response => {
+        this.state.array = {};
+        console.log("[LOG] Response generated from Python server.");
+        console.log(response);
+        this.state.sanitized = response;
+        return response;
+      })
+      .catch(error => {
+        console.error(error);
+      });
+  }
+
   render() {
     return this.state.isLoading ? (
       <Text>Loading...</Text>
     ) : (
       <View style={styles.container}>
         <View style={styles.foodListTitle}>
-          <Text style={styles.titleText}>Recent food</Text>
+          {this.state.fontLoaded ? (
+            <Text style={styles.titleText}>Recent food</Text>
+          ) : null}
         </View>
         <FlatList
-          data={oneElemArrToElem(this.state.foodList.map(Object.values))}
+		  data={oneElemArrToElem(this.state.foodList.map(Object.values))}
           renderItem={
             ({ item }) => (
               <View style={styles.listItems}>

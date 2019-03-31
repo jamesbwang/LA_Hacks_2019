@@ -12,6 +12,8 @@ import HomeScreen from './includes/home.js';
 import ReaderScreen from './includes/reader.js';
 import DatabaseScreen from './includes/database.js';
 
+console.disableYellowBox = true;
+
 const RootStack = createStackNavigator(
   {
     Loading: LoadingScreen,
