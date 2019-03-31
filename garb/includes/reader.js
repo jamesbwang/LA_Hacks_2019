@@ -36,7 +36,7 @@ export default class ReaderScreen extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            api_key: "",
+            api_key: "AIzaSyDWpKpc7yzTcrO3qGoL2OQCdaldG3uTqaA",
             b64str: this.props.navigation.state.params.base64,
             photo_uri: this.props.navigation.state.params.uri,
             progress: 1,
@@ -78,6 +78,7 @@ export default class ReaderScreen extends React.Component {
                 for(var key in responseJson.responses[0].textAnnotations) {
                     this.state.array[key] = responseJson.responses[0].textAnnotations[key].description;
                 }
+                console.log(this.state.array);  
                 this.props.navigation.navigate('Database');
                 return responseJson.responses[0].textAnnotations;
             })

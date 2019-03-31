@@ -22,7 +22,7 @@ export default class LoadingScreen extends React.Component {
             source={require("../assets/bg.jpeg")}
             style={{width: '100%', height: '100%', flex: 1, }} >
             <Text style={{fontSize: 60, textAlign: 'center', color: 'white', top: 130}}>Garb</Text>
-          </ImageBackground>
+        </ImageBackground>
         )
     }
 }
