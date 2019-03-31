@@ -8,7 +8,6 @@
 
 import React from 'react';
 import {
-    SectionList,
     Text,
     View,
     StyleSheet
@@ -80,6 +79,7 @@ export default class ReaderScreen extends React.Component {
                 }
                 console.log(this.state.array);  
                 this.props.navigation.navigate('Database');
+                this.state.text = responseJson.responses[0].textAnnotations;
                 return responseJson.responses[0].textAnnotations;
             })
             .catch((error) => {

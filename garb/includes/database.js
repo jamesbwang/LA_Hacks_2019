@@ -1,15 +1,15 @@
 import React from "react";
 import uuid from "uuid/v1";
 import {
+  Alert,
   StyleSheet,
   Text,
   View,
-  Button,
   FlatList,
   AsyncStorage
 } from "react-native";
-
-//import Input from './components/Input';
+import { CheckBox } from "react-native-elements";
+import { Font } from "expo";
 
 Date.prototype.addDays = function(days) {
   var date = new Date(this.valueOf());
@@ -26,33 +26,60 @@ function oneElemArrToElem(arr) {
   return newArr;
 }
 
-export default class App extends React.Component {
+var tempCheckValues = [];
+
+export default class DatabaseScreen extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      textstring: this.props.navigation.state.params.text // Desantizied output from Google Vision API via reader.js
+    };
+  }
+
   state = {
     isLoading: false,
-    foodList: []
+    foodList: [],
+    fontLoaded: false,
+    checkBoxChecked: []
   };
 
   realCount = 0;
   expectedCount = 0;
 
-  componentDidMount = () => {
+  // For future mass delete feature?
+  checkBoxChanged(id, value) {
+    this.setState({
+      checkBoxChecked: tempCheckValues
+    });
+    var tempCheckBoxChecked = this.state.checkBoxChecked;
+    tempCheckBoxChecked[id] = !value;
+    this.setState({
+      checkBoxChecked: tempCheckBoxChecked
+    });
+  }
+
+  componentDidMount = async () => {
+    await Font.loadAsync({
+      "Merriweather-Bold": require("./assets/fonts/Merriweather-Bold.ttf")
+    });
+    this.setState({ fontLoaded: true });
     /* Add/remove foods here */
     this.addNewFood("Banana");
     this.addNewFood("Pineapple");
     this.addNewFood("Rotisserie Chicken");
-    //this.addNewFood("Cucumber");
-    //this.addNewFood("Cup Noodle");
+    this.addNewFood("Cucumber");
+    this.addNewFood("Cup Noodle");
     var appleObject = this.addNewFood("Apple");
     this.addNewFood("Chick-fil-A sandwich");
-    this.removeFood(appleObject);
-    /*this.addNewFood("Bibimbap");
-		this.addNewFood("Peking duck");
-		this.addNewFood("Passionfruit");
-		this.addNewFood("Bok Choy");
-		this.addNewFood("Fried Tofu");
-		this.addNewFood("Iced Tea");
-		*/
+    this.removeFood(this.appleObject);
+    this.addNewFood("Bibimbap");
+    this.addNewFood("Peking duck");
+    this.addNewFood("Passionfruit");
+    this.addNewFood("Bok Choy");
+    this.addNewFood("Fried Tofu");
+    this.addNewFood("Iced Tea");
   };
+
   loadingFoods = async () => {
     try {
       const allFoods = await AsyncStorage.getItem("foodList");
@@ -66,6 +93,7 @@ export default class App extends React.Component {
       console.log(error.message);
     }
   };
+
   removeFood = foodObject => {
     try {
       this.expectedCount += 1;
@@ -83,6 +111,7 @@ export default class App extends React.Component {
       console.log(error.message);
     }
   };
+
   addNewFood = foodName => {
     try {
       this.expectedCount += 1;
@@ -112,6 +141,7 @@ export default class App extends React.Component {
       console.log(error.message);
     }
   };
+
   recordFoodList = async newFoodList => {
     try {
       const saveResult = await AsyncStorage.setItem(
@@ -136,6 +166,7 @@ export default class App extends React.Component {
       console.log(error.message);
     }
   };
+
   deletefoodList = async () => {
     try {
       await AsyncStorage.removeItem("foodList");
@@ -147,15 +178,77 @@ export default class App extends React.Component {
       console.log(error.message);
     }
   };
+
+  handleCheck = foodObject => {
+    Alert.alert(
+      "Finish Food Confirmation",
+      "Confirm finishing off of " + foodObject.name + "?",
+      [
+        { text: "Nope", onPress: () => console.log("No") },
+        { text: "Confirmed", onPress: () => console.log("Yes") }
+      ],
+      { cancelable: false }
+    );
+    this.removeFood(foodObject);
+  };
+
+  sanitize(input) {
+    api_url = "http://35.243.135.194";
+
+    params = {
+      method: "POST",
+      headers: {
+        "Content-Type": "multipart/form-data"
+      },
+      body: FormData({
+        ocrtext: this.state.textstring
+      })
+    };
+
+    return fetch(api_uri, params)
+      .then(response => {
+        this.state.array = {};
+        console.log("[LOG] Response generated from Python server.");
+        console.log(response);
+        this.state.sanitized = response;
+        return response;
+      })
+      .catch(error => {
+        console.error(error);
+      });
+  }
+
   render() {
     return this.state.isLoading ? (
       <Text>Loading...</Text>
     ) : (
       <View style={styles.container}>
-        <Text style={styles.title}>Recent food</Text>
+        <View style={styles.foodListTitle}>
+          {this.state.fontLoaded ? (
+            <Text style={styles.titleText}>Recent food</Text>
+          ) : null}
+        </View>
         <FlatList
           data={oneElemArrToElem(this.state.foodList.map(Object.values))}
-          renderItem={({ item }) => <Text>{item.name}</Text>}
+          renderItem={
+            ({ item }) => (
+              <View style={styles.listItems}>
+                <Text style={styles.foodText}>{item.name}</Text>
+                <CheckBox
+                  title="Finished?"
+                  iconRight
+                  iconType="material"
+                  checkedIcon="check-box"
+                  uncheckedIcon="check-box-outline-blank"
+                  onPress={() => this.handleCheck(item)}
+                />
+              </View>
+            )
+            /*<Button style={styles.finButton}
+							title='Finished?'
+							onPress={() => this.handleCheck(item)}
+						/>*/
+          }
           keyExtractor={(item, index) => index.toString()}
         />
       </View>
@@ -165,19 +258,35 @@ export default class App extends React.Component {
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
     backgroundColor: "#fff",
     alignItems: "center",
     justifyContent: "center"
   },
-  title: {
-    color: "blue",
-    fontWeight: "bold",
-    fontSize: 30
+  foodListTitle: {
+    flexDirection: "column",
+    justifyContent: "flex-end",
+    paddingTop: 20,
+    paddingBottom: 5
   },
-  listText: {
+  finButton: {
+    margin: 5
+  },
+  titleText: {
     color: "black",
+    fontFamily: "serif",
+    textAlign: "right",
+    alignSelf: "stretch",
     fontWeight: "bold",
-    fontSize: 30
+    fontSize: 40
+  },
+  listItems: {
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "space-between"
+  },
+  foodText: {
+    color: "black",
+    fontFamily: "serif",
+    fontSize: 18
   }
 });
