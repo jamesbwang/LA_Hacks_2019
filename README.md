@@ -1,4 +1,4 @@
-## Meet Garb
+# Garb
 
 Garb is a waste management tool for groceries. By scanning their receipts each week, Garb users can cut down on their food waste and contribute to a sustainable, socially accountable future.
 
