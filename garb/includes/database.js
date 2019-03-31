@@ -8,7 +8,7 @@ import {
   FlatList,
   AsyncStorage
 } from "react-native";
-import { Font, CheckBox } from "react-native-elements";
+import { CheckBox } from "react-native-elements";
 
 Date.prototype.addDays = function(days) {
   var date = new Date(this.valueOf());
@@ -40,7 +40,9 @@ export default class DatabaseScreen extends React.Component {
   state = {
     isLoading: false,
     foodList: [],
-    checkBoxChecked: []
+    checkBoxChecked: [],
+    rawstr: this.props.navigation.state.params.text,
+    sanstr: null
   };
 
   realCount = 0;
@@ -60,20 +62,13 @@ export default class DatabaseScreen extends React.Component {
 
   componentDidMount = async () => {
     /* Add/remove foods here */
-    this.addNewFood("Banana");
-    this.addNewFood("Pineapple");
-    this.addNewFood("Rotisserie Chicken");
-    this.addNewFood("Cucumber");
-    this.addNewFood("Cup Noodle");
-    var appleObject = this.addNewFood("Apple");
-    this.addNewFood("Chick-fil-A sandwich");
-    this.removeFood(this.appleObject);
-    this.addNewFood("Bibimbap");
-    this.addNewFood("Peking duck");
-    this.addNewFood("Passionfruit");
-    this.addNewFood("Bok Choy");
-    this.addNewFood("Fried Tofu");
-    this.addNewFood("Iced Tea");
+    console.log("dirty string: " + this.state.rawstr);
+    this.state.sanstr = sanitize(this.state.rawstr);
+    console.log("clean string: " + this.state.sanstr);
+    for(var i in this.state.sanstr.split()){
+      addNewFood(i);
+    }
+    
   };
 
   loadingFoods = async () => {
@@ -263,7 +258,6 @@ const styles = StyleSheet.create({
   },
   titleText: {
     color: "black",
-    fontFamily: "serif",
     textAlign: "right",
     alignSelf: "stretch",
     fontWeight: "bold",
@@ -276,7 +270,6 @@ const styles = StyleSheet.create({
   },
   foodText: {
     color: "black",
-    fontFamily: "serif",
     fontSize: 18
   }
 });

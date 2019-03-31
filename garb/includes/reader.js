@@ -78,8 +78,8 @@ export default class ReaderScreen extends React.Component {
                     this.state.array[key] = responseJson.responses[0].textAnnotations[key].description;
                 }
                 console.log(this.state.array);  
-                this.props.navigation.navigate('Database');
                 this.state.text = responseJson.responses[0].textAnnotations;
+                this.props.navigation.navigate('Database', this.state.text);
                 return responseJson.responses[0].textAnnotations;
             })
             .catch((error) => {
@@ -90,7 +90,6 @@ export default class ReaderScreen extends React.Component {
     render() {
         return (
             <View style = {styles.container}>
-                
                 <View style={styles.circles}>
                     <Progress.CircleSnail
                         size= {200}
