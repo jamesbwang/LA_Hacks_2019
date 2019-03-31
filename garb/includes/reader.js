@@ -10,19 +10,39 @@ import React from 'react';
 import {
     SectionList,
     Text,
-    View
+    View,
+    StyleSheet
 } from 'react-native';
+import * as Progress from 'react-native-progress';
+
+const styles = StyleSheet.create({
+    container: {
+        flex: 1,
+        justifyContent: 'center',
+        alignItems: 'center',
+        backgroundColor: '#fff',
+        paddingVertical: 20,
+      },
+    circles: {
+      flexDirection: 'row',
+      alignItems: 'center',
+    },
+    progress: {
+      margin: 10,
+    },
+  });
 
 export default class ReaderScreen extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            api_key: "",
+            api_key: "AIzaSyDWpKpc7yzTcrO3qGoL2OQCdaldG3uTqaA",
             b64str: this.props.navigation.state.params.base64,
-            photo_uri: this.props.navigation.state.params.uri
+            photo_uri: this.props.navigation.state.params.uri,
+            progress: 1,
+            indeterminate: true,
         };
     }
-
     componentDidMount() {
         console.log("[LOG] Picture processing has begun.");
         this.findText();
@@ -58,7 +78,8 @@ export default class ReaderScreen extends React.Component {
                 for(var key in responseJson.responses[0].textAnnotations) {
                     this.state.array[key] = responseJson.responses[0].textAnnotations[key].description;
                 }
-                return responseJson.responses[0].textAnnotations
+                this.props.navigation.navigate('Database');
+                return responseJson.responses[0].textAnnotations;
             })
             .catch((error) => {
                 console.error(error);
@@ -67,8 +88,15 @@ export default class ReaderScreen extends React.Component {
     
     render() {
         return (
-            <View>
+            <View style = {styles.container}>
                 <Text>{ this.state.array }</Text>
+                <View style={styles.circles}>
+                    <Progress.CircleSnail
+                        style={styles.progress}
+                        progress={this.state.progress}
+                        indeterminate={this.state.indeterminate}
+                    />
+                </View> 
             </View> 
         );
     }
