@@ -15,10 +15,10 @@ Garb represents images using a base-64 encoded string, and as such, the API take
 
 Garb requires [Node 10.15.3](https://nodejs.org/en/download/current/). After cloning the repository into the working directly, use the following _npm_ commands:
 
-'''
+
 >npm install
 >npm start
-'''
+
 
 The development server should kick off with no problems.
 
