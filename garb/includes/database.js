@@ -67,7 +67,8 @@ export default class DatabaseScreen extends React.Component {
     this.addNewFood("Cup Noodle");
     var appleObject = this.addNewFood("Apple");
     this.addNewFood("Chick-fil-A sandwich");
-    this.removeFood(this.appleObject);
+	console.log(appleObject.id);
+    this.removeFood(appleObject.id);
     this.addNewFood("Bibimbap");
     this.addNewFood("Peking duck");
     this.addNewFood("Passionfruit");
@@ -90,11 +91,14 @@ export default class DatabaseScreen extends React.Component {
     }
   };
 
-  removeFood = foodObject => {
+  removeFood = foodId => {
     try {
       this.expectedCount += 1;
       this.setState(prevState => {
-        prevState.foodList.splice(prevState.foodList.indexOf(foodObject), 1);
+		  console.log(foodId);
+		console.log(prevState.foodList.find(o => o[foodId]));
+        prevState.foodList.splice(prevState.foodList.indexOf(prevState.foodList.find(o => o[foodId])), 1);
+		console.log(prevState.foodList);
         const newFoodList = prevState.foodList;
         const newState = {
           ...prevState,
@@ -111,10 +115,10 @@ export default class DatabaseScreen extends React.Component {
   addNewFood = foodName => {
     try {
       this.expectedCount += 1;
-      const id = uuid();
+      const an_id = uuid();
       const newFood = {
-        [id]: {
-          id,
+        [an_id]: {
+          id: an_id,
           name: foodName,
           datePurchased: Date.now(),
           dateExpire: Date.now(),
@@ -171,18 +175,25 @@ export default class DatabaseScreen extends React.Component {
       console.log(error.message);
     }
   };
+  
+  noFinish() {
+	  // Do nothing
+  };
+  
+  yesFinish(foodId) {
+	  this.removeFood(foodId);
+  };
 
   handleCheck = foodObject => {
-    Alert.alert(
+	 Alert.alert(
       "Finish Food Confirmation",
       "Confirm finishing off of " + foodObject.name + "?",
       [
-        { text: "Nope", onPress: () => console.log("No") },
-        { text: "Confirmed", onPress: () => console.log("Yes") }
+        { text: "Nope", onPress: () => this.noFinish() },
+        { text: "Confirmed", onPress: () => this.yesFinish(foodObject.id) }
       ],
       { cancelable: false }
     );
-    this.removeFood(foodObject);
   };
 
   sanitize(input) {
@@ -217,7 +228,7 @@ export default class DatabaseScreen extends React.Component {
 			) : (
 				<View style={styles.container}>
 				<View style={styles.foodListTitle}>
-					<Text style={styles.titleText}>Recent food</Text>
+					<Text style={styles.titleText}>Your food</Text>
 				</View>
 				<FlatList
 					data={oneElemArrToElem(this.state.foodList.map(Object.values))}
@@ -248,6 +259,7 @@ export default class DatabaseScreen extends React.Component {
 
 const styles = StyleSheet.create({
   container: {
+	flex: 1,
     backgroundColor: "#fff",
     alignItems: "center",
     justifyContent: "center"
@@ -263,7 +275,6 @@ const styles = StyleSheet.create({
   },
   titleText: {
     color: "black",
-    fontFamily: "serif",
     textAlign: "right",
     alignSelf: "stretch",
     fontWeight: "bold",
@@ -276,7 +287,6 @@ const styles = StyleSheet.create({
   },
   foodText: {
     color: "black",
-    fontFamily: "serif",
     fontSize: 18
   }
 });
