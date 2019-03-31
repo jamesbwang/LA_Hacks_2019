@@ -11,14 +11,19 @@ app = Flask(__name__)
 def result():
     data = request.form.get('ocrtext')
     print("Data recieved from client: " + data)
-    text = re.search("description\": \"(.*?)\"", data)[0].strip("description\": \"")
+    #text = re.search("description\": \"(.*?)\"", data)[0].strip("description\": \"")
+    text=data
     
     try:
         text = text.lower()
+        print("\nONE" + text)
         text = re.compile("^(.*?)total",re.S).match(text)[0]
+        print("\nTWO" + text)
         text = text.strip("total").replace("\\n","")
+        print("\nTHREE" + text)
         text_list = re.findall("(\w\w\w\w\w.*?)\d[\d,\., @]", text, re.S)
-        print("Final output after sanitation: " + text_list)
+        print("\nFOUR" + text_list)
+        print("\nFinal output after sanitation: " + text_list)
         return text_list
     
     except:
