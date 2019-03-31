@@ -54,11 +54,35 @@ export default class DatabaseScreen extends React.Component {
   componentDidMount = async () => {
     console.log("[LOG] Database screen has loaded.");
     //console.log(this.props.navigation.state);
-    this.sanitize(this.props.navigation.state.toString());
+    api_url = "http://35.243.135.194";
+    input = this.props.navigation.state.toString();
+    const formData = new FormData();
+    formData.append('ocrtext', input);
+  
+    params = {
+      method: "POST",
+      headers: {
+        "Content-Type": "multipart/form-data"
+      },
+      body: formData
+    };
+  
+    fetch(api_uri, params)
+      .then(response => {
+        this.state.array = {};
+        console.log("[LOG] Response generated from Python server.");
+        console.log(response);
+        this.santizedInput= response;
+        //return response;
+      })
+      .catch(error => {
+        console.error(error);
+      });
+
     console.log(this.santizedInput);
     /* Add/remove foods here */
     console.log("dirty string: " + this.state.rawstr);
-    this.state.sanstr = sanitize(this.state.rawstr);
+    //this.state.sanstr = sanitize(this.state.rawstr);
     console.log("clean string: " + this.state.sanstr);
     for(var i in this.state.sanstr.split()){
       addNewFood(i);
@@ -176,32 +200,6 @@ export default class DatabaseScreen extends React.Component {
       { cancelable: false }
     );
     this.removeFood(foodObject);
-  };
-
-  sanitize = input => {
-    api_url = "http://35.243.135.194";
-  
-    params = {
-      method: "POST",
-      headers: {
-        "Content-Type": "multipart/form-data"
-      },
-      body: FormData({
-        ocrtext: input
-      })
-    };
-  
-    fetch(api_uri, params)
-      .then(response => {
-        this.state.array = {};
-        console.log("[LOG] Response generated from Python server.");
-        console.log(response);
-        this.santizedInput= response;
-        //return response;
-      })
-      .catch(error => {
-        console.error(error);
-      });
   };
 
   render() {
