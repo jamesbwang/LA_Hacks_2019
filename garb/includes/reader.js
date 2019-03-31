@@ -16,7 +16,6 @@ import {
 export default class ReaderScreen extends React.Component {
     constructor(props) {
         super(props);
-        const { navigation } = this.props;
         this.state = {
             api_key: "",
             b64str: this.props.navigation.state.params.base64,
