@@ -79,14 +79,6 @@ export default class App extends React.Component {
 		}
 	}	
 	render() {
-		if (this.state.isLoading == false)
-		{
-			this.addNewFood("Banana");
-			this.addNewFood("Pineapple");
-			this.addNewFood("Rotisserie Chicken");
-			this.addNewFood("Cucumber");
-			this.addNewFood("Cup Noodle");
-		}
 		console.log(this.state.isLoading);
 		console.log(this.state.foodList);
 		return (
