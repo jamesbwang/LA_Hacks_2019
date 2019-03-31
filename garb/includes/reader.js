@@ -1,5 +1,5 @@
 /*
- * LA_Hacks_2019 - reader.js
+ * Garb - reader.js
  * =============================================
  * Takes an image encoded in base64 and parses it
  * with the Google OCR image regconition AI and

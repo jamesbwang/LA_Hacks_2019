@@ -1,12 +1,7 @@
 import React from 'react';
 import {
-  StyleSheet,
   Text,
-  TextInput,
-  View,
-  Button,
   ImageBackground,
-  Image
 } from 'react-native';
 
 export default class LoadingScreen extends React.Component {
@@ -14,7 +9,7 @@ export default class LoadingScreen extends React.Component {
         // Start counting when the page is loaded
         this.timeoutHandle = setTimeout(()=>{
             // Add your logic for the transition
-            this.props.navigation.navigate('Home') // what to push here?
+            this.props.navigation.navigate('Home')
         }, 2500);
     }
     componentWillUnmount(){

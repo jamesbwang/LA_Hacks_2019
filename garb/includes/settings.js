@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React from 'react';
 import {Text, View, Image} from 'react-native';
 
 export default class SettingsScreen extends React.Component {

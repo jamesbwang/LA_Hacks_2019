@@ -1,6 +1,21 @@
-import { Camera, Permissions, FileSystem } from 'expo';
-import {Text, View, TouchableOpacity, Image} from 'react-native';
-import React, { Component } from 'react';
+/*
+ * Garb - home.js
+ * ==============
+ * This is the homescreen containing the code for the camera and photo-creation utility. After
+ * taking a photo, the data containing the URI and base64 encoding of the image is passed
+ * to reader.js
+ */
+
+import {
+  Camera,
+  Permissions
+} from 'expo';
+import {
+  Text,
+  View,
+  TouchableOpacity
+} from 'react-native';
+import React from 'react';
 
 export default class HomeScreen extends React.Component {
     state = {
@@ -17,14 +32,10 @@ export default class HomeScreen extends React.Component {
   
     takePicture() {
       console.log("[LOG] Camera opened.");
-      this.setState({
-          takeImageText: "... PROCESSING PICTURE ..."
-      });
       this.camera.takePictureAsync({ skipProcessing: true, base64: true, onPictureSaved: this.onPictureSaved }).then((data) => {
         this.setState({
           photo: data.base64,
-          photoURI: data.uri,
-          takeImageText: "PICTURE TAKEN"
+          photoURI: data.uri
       }, console.log("[LOG] Picture has been taken."))
       });    }
 
@@ -38,7 +49,7 @@ export default class HomeScreen extends React.Component {
       const { status } = await Permissions.askAsync(Permissions.CAMERA);
       if (status === 'granted') {
       } else {
-        throw new Error('Camera permission not granted');
+        throw new Error('Camera permission not granted!');
       }
     }
   

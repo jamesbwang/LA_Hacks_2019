@@ -1,20 +1,16 @@
+/*
+ * Garb
+ * ====
+ * Garb is an app that takes pictures of reciepts and analyzes them for the user to figure out
+ * whether or not they are wasting food every week. Try it out!
+ */
+
 import React from 'react';
-import { createStackNavigator} from 'react-navigation';
-import {
-  Button,
-  StyleSheet,
-  Text,
-  TextInput,
-  View
-} from 'react-native';
+import { createStackNavigator } from 'react-navigation';
 import LoadingScreen from './includes/loading.js';
 import HomeScreen from './includes/home.js';
 import SettingsScreen from './includes/settings.js';
 import ReaderScreen from './includes/reader.js';
-
-
-
-
 
 const RootStack = createStackNavigator(
   {
