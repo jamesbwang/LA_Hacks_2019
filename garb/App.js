@@ -19,7 +19,7 @@ const RootStack = createStackNavigator(
     Home: HomeScreen,
     Display: SettingsScreen,
     Reader: ReaderScreen,
-    Database: DatabaseScreen
+    Database: DatabaseScreen,
   },
   {
     initialRouteName: 'Loading',
