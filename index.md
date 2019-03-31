@@ -1,8 +1,6 @@
-## Welcome to GitHub Pages
+## Meet Garb
 
-You can use the [editor on GitHub](https://github.com/jamesbwang/LA_Hacks_2019/edit/master/index.md) to maintain and preview the content for your website in Markdown files.
-
-Whenever you commit to this repository, GitHub Pages will run [Jekyll](https://jekyllrb.com/) to rebuild the pages in your site, from the content in your Markdown files.
+Garb is a waste management tool for groceries. By scanning their receipts each week, Garb users can cut down on their food waste and contribute to a sustainable, socially accountable future.
 
 ### Markdown
 
