@@ -8,7 +8,7 @@
 
 import React from 'react';
 import {
-    FlatList,
+    SectionList,
     Text,
     View
 } from 'react-native';
@@ -68,10 +68,7 @@ export default class ReaderScreen extends React.Component {
     render() {
         return (
             <View>
-                <FlatList
-                    data = { this.state.array }
-                    renderItem = {({ item }) => <Text>{ item.key }</Text>}
-                />
+                <Text>{ this.state.array }</Text>
             </View> 
         );
     }
