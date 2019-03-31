@@ -6,11 +6,6 @@ Garb is a waste management tool for groceries. By scanning their receipts each w
 
 Garb was built with React Native for both iOS and Android devices. It uses Optical Character Recognition (OCR) APIs to read text from images. To annotate food items, basic Natural Language Processing (NLP) tools were conceived and built into an API. Garb uses React Native's Async Storage systems to store data in between uses. Finally, Garb takes advantage of both user input and expiration date datasets to record waste usage, and display food waste amounts to the user.
 
-
-### Further Improvements
-
-Garb represents images using a base-64 encoded string, and as such, the API takes a long time to process this data. Compression of this base-64 data into a more condensed format would speed up runtime considerably. Also, integration of the Natural Language Processing API into the system itself would speed up software further.
-
 ### Development with Garb
 
 Garb requires [Node 10.15.3](https://nodejs.org/en/download/current/), and an API key for [Google Cloud Vision](https://cloud.google.com/vision/). After cloning the repository into the working directly, use the following _npm_ commands:
@@ -21,6 +16,12 @@ Garb requires [Node 10.15.3](https://nodejs.org/en/download/current/), and an AP
 ```
 
 The development server should kick off with no problems.
+
+
+
+### Further Improvements
+
+Garb represents images using a base-64 encoded string, and as such, the API takes a long time to process this data. Compression of this base-64 data into a more condensed format would speed up runtime considerably. Also, integration of the Natural Language Processing API into the system itself would speed up software further.
 
 ### Credits
 
